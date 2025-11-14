@@ -1,0 +1,283 @@
+/* Poppins */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ---- TOKENS ---- */
+:root{
+  --bg:#0f0a19;
+  --canvas:#630086;
+  --bar:#ffffff;
+
+  --pill-bg:#AFAFAF;
+  --pill-border:#7F7F7F;
+  --import-fill:#AFAFAF;
+  --import-border:#7F7F7F;
+  --proceed:#8500B5;
+
+  --brand:#630086;
+  --muted:#515151;
+  --txt:#1e1e1e;
+
+  --bar-top:23px;
+  --bar-height: 64px;
+  --tab-height: 42px;
+  --tab-gap: 0px;
+  --gap-below-tab: 16px;
+}
+
+*{ box-sizing:border-box; }
+html, body, #root { height:100%; }
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+}
+body, input, button { font-family:"Poppins",sans-serif !important; }
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: var(--canvas);      /* <-- purple full-screen base */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.page {
+  background: transparent;  /* keep transparent so purple from html/body shows */
+  min-height: 100%;
+}
+
+/* PURPLE FRAME */
+.frame {
+  position: fixed;    /* fixed so it always fills the viewport (no gap) */
+  inset: 0;           /* top:0; right:0; bottom:0; left:0; */
+  width: 100%;
+  height: 100dvh;     /* use dynamic viewport when available */
+  min-height: 100vh;  /* fallback */
+  background: transparent; /* keep frame transparent because body already purple */
+  border-radius: 0;
+  overflow: hidden;
+  z-index: 0;
+}
+.frame.collapsed .topbar{ transform:translate(-50%,-160%); opacity:0; }
+
+/* HEADER */
+.topbar{
+  position:absolute; top:var(--bar-top); left:50%; transform:translateX(-50%);
+  width:calc(98% - 48px);
+  min-height:var(--bar-height);
+  background:var(--bar);
+  border-radius:10px;
+  padding:10px 16px;
+  display:flex; align-items:center; gap:16px;
+  box-shadow:0 6px 22px rgba(0,0,0,.18);
+  z-index:10; overflow:visible;
+  transition:transform .28s ease, opacity .2s ease;
+}
+.brand .brandWord{ font-weight:800; font-size:28px; color:var(--brand); letter-spacing:.2px; }
+.middle{
+  flex: 1;                      /* fill all space between brand & proceed */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;  /* <---- FIX: removes huge center gap */
+  gap: 14px;
+}
+.brand {
+  margin-right: 130px;   /* reduce gap before URL field */
+}
+.urlPill{
+  flex:0 1 460px;        /* changed from 220px → 360px */
+  min-width:460px;       /* changed from 300px → 360px */
+  height:40px;
+  background:var(--pill-bg);
+  border:1px solid var(--pill-border);
+  border-radius:10px;
+  padding:0 12px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.urlIcon{ opacity:.65; display:flex; align-items:center; }
+.urlField{ flex:1; border:0; outline:0; background:transparent; text-align:left; font-size:14px; color:#515151; }
+.urlField::placeholder{ color:#515151; }
+.orTxt{color:var(--muted); font-size:14px; }
+
+.btn.import{
+  flex:0 1 460px;        /* added to match URL pill */
+  min-width:460px;       /* added to match URL pill */
+  height:40px;
+  padding:0 16px;
+  border-radius:10px;
+  background:var(--import-fill);
+  border:1px solid var(--import-border);
+  color:#515151;
+  font-size:14px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+}
+
+.btn.proceed {
+  margin-left: 80px;   /* pushes it to the right */
+}
+
+.btn.proceed{
+  height:36px;
+  padding:0 30px;
+  border:1px solid #AE4AD3;
+  border-radius:7px;
+  background:var(--proceed);
+  color:#fff;
+  font-size:13px;
+  cursor:pointer;
+  margin-left:25px;     /* <--- THIS pushes Proceed to the far right */
+}
+
+
+
+.foldTab{
+  position:absolute; left:50%; top:100%; transform:translateX(-50%);
+  width:100px; height:var(--tab-height);
+  background:#AE4AD3; border:none; cursor:pointer; z-index:12;
+  border-radius:2px 2px 10px 10px; box-shadow:0 10px 24px rgba(0,0,0,.25);
+}
+.foldTab::after{
+  content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-35%);
+  width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:12px solid #fff;
+}
+.foldTabFloating{
+  position: absolute;
+  left: 50%;
+  top: var(--bar-top);
+  transform: translateX(-50%);
+  width: 96px;
+  height: var(--tab-height);
+  background: #D58DF4;             /* light purple tab background */
+  opacity: 0.55;                   /* translucent look */
+  border: 3px solid #9C4ACF;       
+  cursor: pointer;
+
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  display: none;
+  z-index: 30;
+}
+.foldTabFloating::after{
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -35%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid rgba(255, 255, 255, 0.75); 
+}
+.frame.collapsed .foldTabFloating{ display:block; }
+
+/* ===== WATERMARK ===== */
+.wm{
+  position:absolute; inset:0;
+  display:block; z-index:0; /* behind content */
+  pointer-events:none;
+}
+.wm-svg{
+  width:120%; height:100%;
+  opacity:.34;              /* 34% overall opacity */
+  display:block;
+  transform:translateX(-8%); /* pushes the big V to match figma alignment */
+}
+
+/* ===== CONTENT ===== */
+.stage {
+  position: absolute;
+  top: calc(var(--bar-top) + var(--bar-height) + var(--tab-gap) + var(--tab-height) + var(--gap-below-tab));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 16px 34px 24px;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: calc(100dvh - (var(--bar-top) + var(--bar-height) + var(--tab-gap) + var(--tab-height) + var(--gap-below-tab)));
+  min-height: calc(100vh - (var(--bar-top) + var(--bar-height) + var(--tab-gap) + var(--tab-height) + var(--gap-below-tab))); /* fallback */
+}
+.frame.collapsed .stage{ top:56px; }
+
+.stageInner{ width:100%; max-width:100%; margin:0; padding:0 36px; }
+
+/* Headline — Satoshi Variable 36px */
+.headline{
+  font-family: "Satoshi Variable", "Poppins", system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.25;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0,0,0,.28);
+ max-width: 520px;   /* 💥 forces the exact two-line wrapping */
+  margin: 0 auto;     /* centers the headline */
+  position: relative; /* required if you moved it visually */
+  top: 20px;   
+  
+}
+/* 4 equal cards */
+.grid4{
+  display:grid; 
+  grid-template-columns: repeat(4, 329.39px); 
+  justify-content: space-between;              
+  align-items: start;
+  column-gap: 22px;                            
+  row-gap: 0;
+  margin-top: 180px;                            
+  padding: 0;                                  
+}
+.card{
+  width: 329.39px;
+  height: 350px;                               
+  border-radius: 59.61px;                      
+  background: #D9D9D9;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25);
+  padding: 28px 26px;
+  display: flex;
+  align-items: flex-end;
+}
+.cardText{
+  font-family: "Satoshi Variable", "Poppins", system-ui, sans-serif;
+  font-size: 22.3px;
+  line-height: 1.28;
+  color: #630086; 
+  text-align: center;
+  
+}
+
+/* Responsive fallbacks */
+@media (max-width: 1440px){
+  .grid4{
+    grid-template-columns: repeat(2, 329.39px);
+    justify-content: center;
+    gap: 28px 36px;
+  }
+}
+@media (max-width: 720px){
+  .grid4{
+    grid-template-columns: 329.39px;
+    justify-content: center;
+  }
+}
+/* Keep the layout of cards unchanged */
+.stageInner { position: relative; }
+
+/* Take the headline out of normal flow and place it visually lower */
+.headline{
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);   /* center horizontally */
+  top: 90px;                    /* ← adjust this number to place it lower/higher */
+  margin: 0;                     /* no flow margins so cards won't move */
+  width: 100%;
+  z-index: 1;
+}

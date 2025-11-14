@@ -1,0 +1,223 @@
+/* ActiveModeBar styles - minimal scoped styles to match design */
+
+/* tokens */
+:root{
+  --purple: #630086;
+  --accent: #8500B5;
+  --accent-soft: #CF8AF9;
+  --white: #ffffff;
+}
+
+/* page and container */
+.amb-page{ width:100vw; height:100vh; margin:0; padding:0; background:var(--purple); overflow:hidden; }
+.amb-frame{ width:100%; height:100%; position:relative; background:var(--purple); }
+
+/* topbar */
+.amb-topbar{
+  position:absolute;
+  top:18px; left:50%; transform:translateX(-50%);
+  width: min(1360px, calc(100% - 48px));
+  min-height:86px;
+  padding:12px 18px;
+  background:var(--white);
+  border: 4px solid #630086;
+  border-radius:13px;
+  box-shadow:0 6px 18px rgba(0,0,0,.18);
+  display:flex; align-items:center; gap:16px; z-index:30;
+}
+
+/* brand */
+.amb-brand{ font-size:32px; font-weight:800; color:var(--purple); margin-right:12px; }
+
+/* controls group */
+.amb-middle{ display:flex; align-items:center; gap:20px;}
+
+/* url pill */
+.amb-urlPill{
+  display:flex; align-items:center; gap:6px;
+  background:#f1f1f1; border:1px solid #7F7F7F;
+  height:48px; padding:0 14px; border-radius:10px;
+  min-width:360px;
+  margin-left: 160px;
+}
+.amb-urlIcon{ opacity:.85; display:flex; align-items:center; }
+.amb-urlField{ border:0; outline:0; background:transparent; padding-left:6px; color:#6b6b6b; font-size:15px; min-width:220px; }
+
+/* buttons */
+.amb-btn{ height:40px; padding:0 30px; border-radius:10px; border:none; cursor:pointer; font-weight:600; }
+.amb-reload{ background:var(--accent); color:#fff; border:1px solid var(--accent-soft); font-weight:300 }
+.amb-recal {
+  order: 2; /* ensure it comes right next to stroke */
+  background: var(--accent-soft);
+  color: #8500B5;
+  font-weight: 300;
+  padding-left: 20px;
+  padding-right: 20px;
+  margin-left: -70px; /* slight pull towards stroke */
+}
+
+/* stroke control */
+/* Stroke picker */
+.amb-stroke {
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-left: 150px;
+  margin-right: 60px;
+  position:relative; /* for picker popover positioning */
+}
+/* outer pill */
+.amb-strokePill {
+  display:inline-flex;
+  align-items:center;
+  gap:2px;
+  padding:12px 7px 12px 8px; /* larger pill */
+  background: #CF8AF9;
+  border-radius: 9px;
+height:20px;
+  
+  min-height:40px;
+  cursor:pointer;
+}
+
+/* small label 'Stroke' */
+.amb-strokeLabel {
+  font-size:14px;
+  color:#8500B5;
+  font-weight:300;
+}
+.amb-caret { margin-left:4px; transform: translateY(1px); }
+
+.amb-colorBox {
+  width:43px;
+  height:30px;
+  border-radius:4px;
+  cursor: pointer;
+  margin-left:8px;
+}
+.amb-pickerPop {
+  position:absolute;
+  top:62px; /* below the pill */
+  right:0;
+  transform: translateY(6px);
+  z-index:60;
+  padding:12px;
+  border-radius:12px;
+  background: linear-gradient(180deg, #ffffff, #fff);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.18);
+  border: 6px solid rgba(174,74,211,0.06);
+}
+
+.amb-pickerInner {
+  display:flex;
+  gap:12px;
+  align-items:center;
+  padding:4px;
+}
+
+/* each swatch large */
+.amb-pickerSwatch {
+  width:44px;
+  height:38px;
+  border-radius:8px;
+  
+  cursor:pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+
+/* selected swatch has extra ring */
+.amb-pickerSwatch.selected {
+  box-shadow: 0 12px 34px rgba(0,0,0,0.22), 0 0 0 6px rgba(174,74,211,0.08);
+  transform: translateY(-4px);
+}
+
+
+.amb-select{ height:36px; border-radius:8px; padding:0 8px; }
+
+/* fold tab */
+.amb-foldTab{
+ position:absolute; left:50%; top:100%; transform:translateX(-50%);
+  width:100px; height:48px;
+  background:#AE4AD3;  cursor:pointer; z-index:12;
+  border-radius:2px 2px 10px 10px; box-shadow:0 10px 24px rgba(0,0,0,.25); border:4px solid #630086;
+}
+.amb-foldTab::after{ content:""; position:absolute; left:50%; top:50%; transform:translate(-50%,-35%); width:0; height:0; border-left:10px solid transparent; border-right:10px solid transparent; border-top:12px solid #fff; }
+
+/* folded floating tab */
+.amb-foldTabFloating{
+  position: absolute;
+  left: 50%;
+  top: var(--bar-top);
+  transform: translateX(-50%);
+  width: 96px;
+  height: var(--tab-height);
+  background: #D58DF4;             /* light purple tab background */
+  opacity: 0.55;                   /* translucent look */
+  border: 3px solid #9C4ACF;       
+  cursor: pointer;
+
+  border-radius: 2px 2px 6px 6px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+  display: none;
+  z-index: 30;
+}
+.amb-foldTabFloating::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -35%);
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 12px solid rgba(255, 255, 255, 0.75); /* 🌟 dark white arrow */
+}
+.amb-frame.collapsed .amb-topbar{ transform: translate(-50%, -160%); opacity: 0; }
+.amb-frame.collapsed .amb-foldTabFloating{ display:block; }
+
+/* stage & background */
+.amb-stage{ position:absolute; left:0; right:0; top:0; bottom:0; overflow:hidden; z-index:10; }
+
+/* background media */
+.amb-bg{
+  position:absolute; left:0; top:0; width:100%; height:100%;
+  object-fit:cover; object-position:center; border:0; z-index:5;
+}
+
+/* bottom overlay & CTA */
+.amb-bottomOverlay{
+  position:absolute; left:0; right:0; bottom:0;
+  display:flex; flex-direction:column; align-items:center;
+  padding:64px 24px 40px; z-index:28;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(174,74,211,0.55) 55%, rgba(103,30,129,0.85) 100%);
+}
+
+/* CTA */
+.amb-cta{
+  width:360px; height:96px; border-radius:56px;
+  background: #630086;
+  color:#fff; font-size:36px; font-weight:400;
+  border:4px solid #ffffff;
+  box-shadow:0 24px 40px rgba(0,0,0,0.45), inset 0 -4px 0 rgba(0,0,0,0.08);
+  cursor:pointer; margin-bottom:16px;
+}
+
+/* caption */
+.amb-caption{ max-width:920px; color:#fff; text-align:center; font-size:14px; opacity:.95; line-height:1.6; padding:0 36px; margin-top:6px; }
+
+/* responsiveness */
+@media (max-width:900px){
+  .amb-urlPill{ min-width:220px; }
+  .amb-cta{ width:90%; height:76px; font-size:26px; border-radius:44px; }
+  .amb-topbar{ width:calc(100% - 32px); left:50%; transform:translateX(-50%); padding-right:16px; }
+}
+/* responsive */
+
+  @media (max-width:900px) {
+  .amb-strokePill { padding:10px 14px; min-height:40px; }
+  .amb-strokeLabel { font-size:16px; }
+  .amb-colorBox { width:38px; height:32px; }
+  .amb-pickerSwatch { width:36px; height:30px; }
+  .amb-pickerPop { top:56px; }
+}

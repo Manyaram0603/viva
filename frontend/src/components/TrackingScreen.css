@@ -1,0 +1,177 @@
+/* TrackingScreen.css
+   Cleaned, consolidated styles with CSS variables:
+   - --viva-stroke: hex color (e.g. #EE4B3C)
+   - --viva-stroke-rgb: "r,g,b" (e.g. "238,75,60")
+   JS should set these on document.documentElement when stroke changes:
+     document.documentElement.style.setProperty('--viva-stroke', strokeHex);
+     document.documentElement.style.setProperty('--viva-stroke-rgb', `${r}, ${g}, ${b}`);
+*/
+
+/* Defaults for CSS variables (fallbacks) */
+:root {
+  --viva-stroke: #EE4B3C;
+  --viva-stroke-rgb: 238,75,60; /* r,g,b for rgba usage */
+}
+
+/* Container */
+.tracking-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #2c0b3a; /* optional background color when no preview */
+}
+
+/* Full-bleed background (image or iframe) */
+.tracking-bg,
+.tracking-bg-iframe {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: 0;
+  z-index: 0;
+}
+
+/* Canvas layers - fixed so they cover viewport and do not move */
+.heatmap-canvas,
+.trail-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* visual stacking */
+.heatmap-canvas { z-index: 1; mix-blend-mode: screen; }
+.trail-canvas   { z-index: 2; }
+
+/* Eye cursor - uses CSS variable for color and smooth transitions */
+.eye-cursor {
+  position: fixed;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 6;
+  background: var(--viva-stroke, #EE4B3C);
+  box-shadow: 0 0 15px rgba(var(--viva-stroke-rgb, 238,75,60), 0.75);
+  border: 2px solid rgba(255,255,255,0.12);
+  transition: background-color 0.18s ease, box-shadow 0.18s ease, transform 0.06s linear;
+}
+
+/* Dwell timer bubble */
+.timer-bubble {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 7;
+  background: var(--viva-stroke, #EE4B3C);
+  color: white;
+  font-weight: 700;
+  padding: 6px 10px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  font-size: 0.95rem;
+  transition: background-color 0.18s ease, transform 0.12s ease, opacity 0.12s ease;
+  pointer-events: none;
+}
+
+/* Tracking status text */
+.tracking-text {
+  position: fixed;
+  bottom: 25px;
+  width: 100%;
+  text-align: center;
+  color: white;
+  font-size: 1.1rem;
+  z-index: 4;
+}
+
+/* Camera preview box (mirrored video) */
+.camera-preview-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 5;
+  width: 240px;
+  height: 180px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.35);
+  border: 3px solid rgba(255,255,255,0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.camera-feed {
+  width: 100%;
+  height: auto;
+  transform: scaleX(-1);
+}
+
+/* Recalibrate button (top-right) */
+.recalibrate-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 6;
+  background-color: #ffffff;
+  color: var(--viva-stroke, #8500b5);
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease, color 0.18s ease;
+}
+.recalibrate-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 6px 20px rgba(var(--viva-stroke-rgb, 238,75,60), 0.18);
+  background-color: var(--viva-stroke, #ff1744);
+  color: #fff;
+}
+
+/* Save image button (bottom center) */
+.save-image-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  background: #ffffff;
+  padding: 12px 28px;
+  border-radius: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+  transition: background-color 0.12s ease, transform 0.12s ease;
+}
+.save-image-btn:hover { background: #e6e6e6; transform: translateX(-50%) translateY(-2px); }
+
+/* Utility classes */
+.ui-element { position: fixed; z-index: 10; }
+.invisible { opacity: 0; pointer-events: none; }
+
+/* small-screen adjustments */
+@media (max-width: 900px) {
+  .camera-preview-box { width: 180px; height: 140px; right: 12px; bottom: 12px; }
+  .recalibrate-btn { padding: 8px 14px; top: 12px; right: 12px; font-size: 0.95rem; }
+  .save-image-btn { padding: 10px 18px; font-size: 16px; bottom: 14px; }
+  .eye-cursor { width: 14px; height: 14px; }
+  .timer-bubble { font-size: 0.85rem; padding: 5px 8px; }
+}
+
+/* Minor accessibility: ensure focus outline if keyboard used */
+.recalibrate-btn:focus,
+.save-image-btn:focus {
+  outline: 3px solid rgba(var(--viva-stroke-rgb, 238,75,60), 0.22);
+  outline-offset: 2px;
+  border-radius: 10px;
+}
